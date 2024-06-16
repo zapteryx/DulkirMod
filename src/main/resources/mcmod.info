@@ -2,11 +2,12 @@
   {
     "modid": "dulkirmod",
     "name": "Dulkir Mod",
-    "description": "The worst skyblock mod.",
-    "version": "1.2.8",
+    "description": "The worst SkyBlock mod. Updated by zapteryx to support custom item IDs for custom animations.",
+    "version": "1.2.8-CA",
     "mcversion": "1.8.9",
     "authorList": [
-      "Dulkir"
+      "Dulkir",
+      "zapteryx"
     ]
   }
 ]

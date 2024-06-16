@@ -5,6 +5,7 @@ import dulkirmod.DulkirMod.Companion.mc
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.MathHelper
 import kotlin.math.exp
 import kotlin.math.pow
@@ -26,17 +27,43 @@ object ItemAnimations {
      */
     fun itemTransforHook(equipProgress: Float, swingProgress: Float): Boolean {
         if (!config.customAnimations) return false
-        val newSize = (0.4f * exp(config.customSize))
-        val newX = (0.56f * (1 + config.customX))
-        val newY = (-0.52f * (1 - config.customY))
-        val newZ = (-0.71999997f * (1 + config.customZ))
+        var configuredSize = config.customSize
+        var configuredX = config.customX
+        var configuredY = config.customY
+        var configuredZ = config.customZ
+        var configuredYaw = config.customYaw
+        var configuredPitch = config.customPitch
+        var configuredRoll = config.customRoll
+        if (config.whitelistEnabled) {
+            val stack: ItemStack = mc.thePlayer.heldItem ?: return false
+            if (!stack.hasTagCompound()) return false
+            val tag: NBTTagCompound = stack.tagCompound
+            if (!tag.hasKey("ExtraAttributes", 10) || !tag.hasKey("display", 10)) return false
+            val ea: NBTTagCompound = tag.getCompoundTag("ExtraAttributes")
+            if (!ea.hasKey("id", 8)) return false
+            val id = ea.getString("id")
+            if (config.customItemIds.uppercase().split(",").contains(id)) {
+                configuredSize = config.customOverrideSize
+                configuredX = config.customOverrideX
+                configuredY = config.customOverrideY
+                configuredZ = config.customOverrideZ
+                configuredYaw = config.customOverrideYaw
+                configuredPitch = config.customOverridePitch
+                configuredRoll = config.customOverrideRoll
+            }
+        }
+
+        val newSize = (0.4f * exp(configuredSize))
+        val newX = (0.56f * (1 + configuredX))
+        val newY = (-0.52f * (1 - configuredY))
+        val newZ = (-0.71999997f * (1 + configuredZ))
         GlStateManager.translate(newX, newY, newZ)
         GlStateManager.translate(0.0f, equipProgress * -0.6f, 0.0f)
 
         //Rotation
-        GlStateManager.rotate(config.customPitch, 1.0f, 0.0f, 0.0f)
-        GlStateManager.rotate(config.customYaw, 0.0f, 1f, 0f)
-        GlStateManager.rotate(config.customRoll, 0f, 0f, 1f)
+        GlStateManager.rotate(configuredPitch, 1.0f, 0.0f, 0.0f)
+        GlStateManager.rotate(configuredYaw, 0.0f, 1f, 0f)
+        GlStateManager.rotate(configuredRoll, 0f, 0f, 1f)
 
         GlStateManager.rotate(45f, 0.0f, 1f, 0f)
 

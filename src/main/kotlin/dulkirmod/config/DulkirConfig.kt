@@ -278,7 +278,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Global Toggle",
         description = "Change the look of your held item",
         category = "Animations",
-        subcategory = "Animations"
+        subcategory = "Animations (all items)"
     )
     var customAnimations = false
 
@@ -286,7 +286,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Size",
         description = "Scales the size of your currently held item. Default: 0",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -1.5f,
         max = 1.5f,
         step = 0
@@ -297,7 +297,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Scale Swing",
         description = "Also scale the size of the swing animation.",
         category = "Animations",
-        subcategory = "Animations"
+        subcategory = "Animations (all items)"
     )
     var doesScaleSwing = true
 
@@ -305,7 +305,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "X",
         description = "Moves the held item. Default: 0",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -1.5f,
         max = 1.5f,
         step = 0
@@ -316,7 +316,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Y",
         description = "Moves the held item. Default: 0",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -1.5f,
         max = 1.5f,
         step = 0
@@ -327,7 +327,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Z",
         description = "Moves the held item. Default: 0",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -1.5f,
         max = 1.5f,
         step = 0
@@ -338,7 +338,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Yaw",
         description = "Rotates your held item. Default: 0",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -180f,
         max = 180f,
         step = 1
@@ -349,7 +349,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Pitch",
         description = "Rotates your held item. Default: 0",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -180f,
         max = 180f,
         step = 1
@@ -360,7 +360,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Roll",
         description = "Rotates your held item. Default: 0",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -180f,
         max = 180f,
         step = 1
@@ -371,7 +371,7 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Speed",
         description = "Speed of the swing animation.",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         min = -2f,
         max = 1f,
         step = 0
@@ -382,24 +382,15 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         name = "Ignore Haste",
         description = "Makes the chosen speed override haste modifiers.",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)"
     )
     var ignoreHaste = true
-
-    @Dropdown(
-        name = "Drinking Fix",
-        description = "Pick how to handle drinking animations.",
-        category = "Animations",
-        subcategory = "Fixes",
-        options = ["No fix", "Rotationless", "Fixed"]
-    )
-    var drinkingSelector = 2
 
     @Button(
         name = "Reset Item Values",
         description = "Vanilla Look! Closes Settings GUI.",
         category = "Animations",
-        subcategory = "Animations",
+        subcategory = "Animations (all items)",
         text = "Reset!"
     )
     fun demoButton() {
@@ -415,6 +406,159 @@ object DulkirConfig : Config(Mod("DulkirMod", ModType.SKYBLOCK), "dulkirmod-conf
         customSpeed = 0f
         DulkirMod.mc.displayGuiScreen(null)
     }
+
+    @Switch(
+        name = "Override for specific item(s)",
+        description = "Only enable custom animations for specific item(s) (requires internal SkyBlock item ID)",
+        category = "Animations",
+        subcategory = "Animations (override items)"
+    )
+    var whitelistEnabled = false
+
+    @Text(
+        name = "Item ID(s)",
+        description = "Item ID(s) to enable custom animations for, separated by newlines",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        placeholder = "HYPERION,DIAMOND_SWORD",
+        multiline = true,
+        secure = false
+    )
+    var customItemIds: String = ""
+
+    @Slider(
+        name = "Size",
+        description = "Scales the size of your currently held item. Default: 0",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -1.5f,
+        max = 1.5f,
+        step = 0
+    )
+    var customOverrideSize = 0f
+
+    @Checkbox(
+        name = "Scale Swing",
+        description = "Also scale the size of the swing animation.",
+        category = "Animations",
+        subcategory = "Animations (override items)"
+    )
+    var doesOverrideScaleSwing = true
+
+    @Slider(
+        name = "X",
+        description = "Moves the held item. Default: 0",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -1.5f,
+        max = 1.5f,
+        step = 0
+    )
+    var customOverrideX = 0f
+
+    @Slider(
+        name = "Y",
+        description = "Moves the held item. Default: 0",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -1.5f,
+        max = 1.5f,
+        step = 0
+    )
+    var customOverrideY = 0f
+
+    @Slider(
+        name = "Z",
+        description = "Moves the held item. Default: 0",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -1.5f,
+        max = 1.5f,
+        step = 0
+    )
+    var customOverrideZ = 0f
+
+    @Slider(
+        name = "Yaw",
+        description = "Rotates your held item. Default: 0",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -180f,
+        max = 180f,
+        step = 1
+    )
+    var customOverrideYaw = 0f
+
+    @Slider(
+        name = "Pitch",
+        description = "Rotates your held item. Default: 0",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -180f,
+        max = 180f,
+        step = 1
+    )
+    var customOverridePitch = 0f
+
+    @Slider(
+        name = "Roll",
+        description = "Rotates your held item. Default: 0",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -180f,
+        max = 180f,
+        step = 1
+    )
+    var customOverrideRoll = 0f
+
+    @Slider(
+        name = "Speed",
+        description = "Speed of the swing animation.",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        min = -2f,
+        max = 1f,
+        step = 0
+    )
+    var customOverrideSpeed = 0f
+
+    @Checkbox(
+        name = "Ignore Haste",
+        description = "Makes the chosen speed override haste modifiers.",
+        category = "Animations",
+        subcategory = "Animations (override items)"
+    )
+    var ignoreOverrideHaste = true
+
+    @Button(
+        name = "Reset Item Values",
+        description = "Vanilla Look! Closes Settings GUI.",
+        category = "Animations",
+        subcategory = "Animations (override items)",
+        text = "Reset!"
+    )
+    fun demoOverrideButton() {
+        customOverrideSize = 0f
+        customOverrideX = 0f
+        customOverrideY = 0f
+        customOverrideZ = 0f
+        customOverrideRoll = 0f
+        customOverridePitch = 0f
+        customOverrideYaw = 0f
+        doesOverrideScaleSwing = true
+        ignoreOverrideHaste = true
+        customOverrideSpeed = 0f
+        DulkirMod.mc.displayGuiScreen(null)
+    }
+
+    @Dropdown(
+        name = "Drinking Fix",
+        description = "Pick how to handle drinking animations.",
+        category = "Animations",
+        subcategory = "Fixes",
+        options = ["No fix", "Rotationless", "Fixed"]
+    )
+    var drinkingSelector = 2
 
     @Button(
         name = "Export Preset as String",

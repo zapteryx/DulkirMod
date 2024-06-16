@@ -44,6 +44,18 @@ object Utils {
 			DulkirConfig.customRoll = import.roll
 			DulkirConfig.drinkingSelector = import.drinkingFix
 			DulkirConfig.ignoreHaste = import.ignoreHaste
+			DulkirConfig.whitelistEnabled = import.whitelistEnabled
+			DulkirConfig.customItemIds = import.customItemIds
+			DulkirConfig.customOverrideSize = import.overrideSize
+			DulkirConfig.customOverrideSpeed = import.overrideSpeed
+			DulkirConfig.doesOverrideScaleSwing = import.overrideScaleSwing
+			DulkirConfig.customOverrideX = import.overrideX
+			DulkirConfig.customOverrideY = import.overrideY
+			DulkirConfig.customOverrideZ = import.overrideZ
+			DulkirConfig.customOverrideYaw = import.overrideYaw
+			DulkirConfig.customOverridePitch = import.overridePitch
+			DulkirConfig.customOverrideRoll = import.overrideRoll
+			DulkirConfig.ignoreOverrideHaste = import.ignoreOverrideHaste
 		} catch (e: Exception) {
 			TextUtils.info("§6§lCurrent clipboard is not a recognizable Custom Animation Preset.")
 		}
